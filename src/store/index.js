@@ -15,11 +15,12 @@ export const useMainStore = defineStore({
     }
   },
   actions: {
-    addTodo(todo = { priority: 'high'}) {
+    addTodo(todo = { priority: 'HIGH'}) {
       if (!todo.value) {
         console.warn('Not found todo value')
         return
       }
+      todo.priority = todo.priority.toUpperCase()
       this.todos.push(todo)
     },
     removeTodo(index) {

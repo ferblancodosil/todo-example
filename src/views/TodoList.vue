@@ -1,6 +1,12 @@
 <template>
-    <form @submit.prevent="addElement">
+    <form @submit.prevent="addElement(todoInput, todoPriority)">
         <input type="text" v-model="todoInput" />
+        <select v-model="todoPriority">
+            <option value="" selected>All</option>
+            <option>Low</option>
+            <option>Mid</option>
+            <option>High</option>
+        </select>
         <button type="submit">Add Todo</button>
     </form>
     <div v-if="!isEmpty">
@@ -21,9 +27,10 @@
     setup() {
       const main = useMainStore();
       const todoInput = ref('');
-      const addElement = (priority = 'high') => {
-        if (todoInput.value != "") {
-          main.addTodo({ ...todoInput, priority });
+      const todoPriority = ref('');
+      const addElement = (input, priority = 'high') => {
+        if (input) {
+          main.addTodo({ value: todoInput.value, priority: priority || 'High' });
           todoInput.value = "";
         }
       };
@@ -36,7 +43,8 @@
         addElement,
         modifyPositionElement,
         todoInput,
-        todos: computed(() => main.getAllTodos),
+        todoPriority,
+        todos: computed(() => main.getAllTodos.filter(e => !todoPriority.value || e.priority === todoPriority.value.toUpperCase())),
         totalTodos: computed(() => main.getAllTodos.length),
         isEmpty: computed(() => main.todoEmpty),
         removeTodo: main.removeTodo,
