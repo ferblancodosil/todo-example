@@ -44,7 +44,13 @@
         modifyPositionElement,
         todoInput,
         todoPriority,
-        todos: computed(() => main.getAllTodos.filter(e => !todoPriority.value || e.priority === todoPriority.value.toUpperCase())),
+        todos: computed(() => main.getAllTodos.filter(e => {
+          const filterByValue = (!todoInput.value || e.value.toUpperCase().indexOf(todoInput.value.toUpperCase()) !== -1)
+          const filterByPriority = (!todoPriority.value || e.priority === todoPriority.value.toUpperCase())
+          console.info('filterByValue', filterByValue)
+          console.info('filterByPriority', filterByPriority)
+          return filterByValue && filterByPriority
+        })),
         totalTodos: computed(() => main.getAllTodos.length),
         isEmpty: computed(() => main.todoEmpty),
         removeTodo: main.removeTodo,
