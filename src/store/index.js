@@ -20,7 +20,7 @@ export const useMainStore = defineStore({
         console.warn('Not found todo value')
         return
       }
-      todo.priority = todo.priority.toUpperCase()
+      todo.priority = todo.priority.toLowerCase()
       this.todos.push(todo)
     },
     removeTodo(index) {

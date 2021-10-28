@@ -3,9 +3,9 @@
         <input title="Indique el nombre de la tarea" placeholder="Escriba el nombre de la tarea para filtrar o añadir" required type="text" v-model="value" />
         <select title="Prioridad de la tarea" v-model="priority">
             <option value="" selected>All</option>
-            <option>Low</option>
-            <option>Mid</option>
             <option>High</option>
+            <option>Mid</option>
+            <option>Low</option>
         </select>
         <button title="Pulse para añadir una nueva tarea" type="submit">Añadir tarea</button>
     </form>
@@ -37,7 +37,6 @@
     .flex-row {
         display: flex;
         flex-wrap: wrap;
-        align-items: flex-start;
     }
     input {
         width: 100%;
