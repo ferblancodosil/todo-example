@@ -1,14 +1,5 @@
 <template>
-    <form @submit.prevent="addElement(todoInput, todoPriority)">
-        <input type="text" v-model="todoInput" />
-        <select v-model="todoPriority">
-            <option value="" selected>All</option>
-            <option>Low</option>
-            <option>Mid</option>
-            <option>High</option>
-        </select>
-        <button type="submit">Add Todo</button>
-    </form>
+    <DataInput @addElement="addElement" @onChange="onChange"></DataInput>
     <div v-if="!isEmpty">
         <p v-for="(todo, index) in todos" :key="index">
             {{ todo }}
@@ -19,36 +10,37 @@
     </div>
     <div v-else>No todos found</div>
 </template>
-
 <script>
   import { computed, ref } from "vue";
   import { useMainStore } from "@/store";
+  import DataInput from "@/components/DataInput.vue";
   export default {
+    components: {
+      DataInput
+    },
     setup() {
       const main = useMainStore();
-      const todoInput = ref('');
-      const todoPriority = ref('');
-      const addElement = (input, priority = 'high') => {
-        if (input) {
-          main.addTodo({ value: todoInput.value, priority: priority || 'High' });
-          todoInput.value = "";
-        }
+      const filterName = ref('');
+      const filterPriority = ref('');
+      const addElement = ({ value, priority = 'high' }) => {
+        main.addTodo({ value, priority: priority || 'High' });
       };
       const modifyPositionElement = (oldPosition, newPositon) => {
         if (newPositon !== undefined && oldPosition !== undefined) {
           main.reorderTodo(oldPosition, newPositon);
         }
       }
+      const onChange = ({ value, priority = 'high' }) => {
+        filterName.value = value
+        filterPriority.value = priority
+      }
       return {
         addElement,
         modifyPositionElement,
-        todoInput,
-        todoPriority,
+        onChange,
         todos: computed(() => main.getAllTodos.filter(e => {
-          const filterByValue = (!todoInput.value || e.value.toUpperCase().indexOf(todoInput.value.toUpperCase()) !== -1)
-          const filterByPriority = (!todoPriority.value || e.priority === todoPriority.value.toUpperCase())
-          console.info('filterByValue', filterByValue)
-          console.info('filterByPriority', filterByPriority)
+          const filterByValue = (!filterName.value || e.value.toUpperCase().indexOf(filterName.value.toUpperCase()) !== -1)
+          const filterByPriority = (!filterPriority.value || e.priority === filterPriority.value.toUpperCase())
           return filterByValue && filterByPriority
         })),
         totalTodos: computed(() => main.getAllTodos.length),
