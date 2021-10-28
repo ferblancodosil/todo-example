@@ -1,7 +1,14 @@
-# Vue 3 + Vite
+# TODO-Example
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Este proyecto es un ejemplo de TODO implementado en Vue 3 + ViteJS
 
-## Recommended IDE Setup
+## Mejoras
+* Internacionalización de los texto
+* Poder editar las tareas
+* Sustituir el confirm del navegador por uno en CSS al borrar una tarea
 
-- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+# Pasos para ejecutar
+* Descargar el proyecto
+* Instalación: npm install
+* Despliegue en modo desarrollo: npm run dev
+* Generación de SPA para desplegar: npm run build
